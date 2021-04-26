@@ -1,23 +1,46 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import {
-  FaCommentAlt,
-  FaThumbsUp,
-  FaRegEye,
-  FaThinkPeaks,
-} from "react-icons/fa";
 import CustomCard from "../component/CustomCard";
 import CustomHeader from "../component/CustomHeader";
 import axios from "axios";
 
-const StyledRoot = styled.div`
-  padding: 50px 12px;
-  margin-bottom: 30px;
+const Button = styled.button`
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  padding: 10px 60px;
+  border-radius: 5px;
+  margin: 10px 0px;
+  cursor: pointer;
+  border-color:black;
 `;
-const StyledContainer = styled.div`
-  max-width: 550px;
-  width: 100%;
-  margin: auto;
+
+export const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+  margin-top: 50px;
+  padding: 10px;
+  justify-items: center;
+
+  @media screen and (max-width: 1600px) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5px;
+    justify-items: center;
+  }
+
+  @media screen and (max-width: 1000px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 5px;
+    justify-items: center;
+  }
+
+  @media screen and (max-width: 600px) {
+    grid-template-columns: 1fr;
+    grid-template-columns: "repeat(1, 1fr)";
+    grid-gap: 2;
+    justify-items: center;
+  }
 `;
 
 class HomePage extends Component {
@@ -28,7 +51,7 @@ class HomePage extends Component {
   };
 
   componentDidMount() {
-    axios.get(`https://randomuser.me/api/`).then(
+    axios.get(`https://randomuser.me/api/?results=5`).then(
       (res) => {
         const persons = res.data.results;
         this.setState({
@@ -45,6 +68,15 @@ class HomePage extends Component {
     );
   }
 
+  fetch = () => {
+    axios.get(`https://randomuser.me/api`).then((res) => {
+      const person = res.data.results[0];
+      this.setState((state) => ({
+        persons: [...state.persons, person],
+      }));
+    });
+  };
+
   render() {
     const { error, isLoaded, persons } = this.state;
     if (error) {
@@ -55,12 +87,11 @@ class HomePage extends Component {
       return (
         <div>
           <CustomHeader />
-          <StyledRoot>
-            <StyledContainer>
-              <ul className="ul">
-                {persons.map(person => (
-                  <li key = {person.login.uuid}>
+          <Button onClick={this.fetch}>Fetch More</Button>
+          <Grid>
+                {persons.map((person) => (
                     <CustomCard
+                    key={person.login.uuid}
                       gender={person.gender}
                       name={person.name}
                       location={person.location}
@@ -68,12 +99,11 @@ class HomePage extends Component {
                       login={person.login}
                       dateOfBirth={person.dob}
                       phone={person.phone}
-                      picture={person.picture}/>
-                  </li>
+                      picture={person.picture}
+                    />
                 ))}
-              </ul>
-            </StyledContainer>
-          </StyledRoot>
+           
+              </Grid>
         </div>
       );
     }

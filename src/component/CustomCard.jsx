@@ -1,63 +1,45 @@
 import React from "react";
 import styled from "styled-components";
+import { BiFemaleSign, BiMaleSign } from "react-icons/bi";
+import { GoLocation } from "react-icons/go";
+import { IconContext } from "react-icons";
+import { AiOutlineMail } from "react-icons/ai";
+import { MdDateRange } from "react-icons/md";
+import { AiFillPhone } from "react-icons/ai";
+
+const image = {
+  width: "140%",
+  height: "100%",
+};
 const StyledContainer = styled.div`
-  border: ${(props) => `1px solid`};
-  padding: 25px 12px 18px;
-`;
-const Name = styled.h2`
-  color: #000;
-  font-weight: 300;
-  @media (max-width: 500px) {
-    font-size: 1rem;
-  }
-`;
-const Location = styled.div`
-  color: #000;
-  font-weight: 300;
-  margin: 6px 0;
-  @media (max-width: 500px) {
-    font-size: 0.8rem;
-  }
-`;
-const Email = styled.p`
-  color: #000;
-  font-weight: 300;
-  @media (max-width: 500px) {
-    font-size: 0.75rem;
-  }
-`;
-const Actions = styled.div`
-  color: #333;
+  border: ${(props) => `2px solid black`};
+  width: 98%;
+  height: 80%;
   display: flex;
-  align-items: center;
-  svg {
-    transform: translateY(2px);
-    margin-right: 5px;
-  }
+  flex-direction: row;
+  margin-bottom: 50px;
+  border-radius: 2.5px;
+`;
+const Text = styled.h3`
+  color: #000;
+  font-family: Arial;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  text-align: left;
   @media (max-width: 500px) {
-    flex-direction: column;
-    & button {
-      width: 100%;
-      margin-bottom: 4px;
-      font-size: 0.65rem;
-    }
+    font-size: 0.5rem;
   }
 `;
-const Action = styled.button`
-  margin: 0 5px;
-  padding: 8px 14px;
-  background: rgba(155, 155, 155, 0.2);
-  color: #fff;
-  cursor: pointer;
-  border: 1px solid #000;
-  outline: 0;
-  font-weight: 300;
-  :hover {
-    opacity: 0.8;
-  }
-  :active {
-  }
+const ImageContainer = styled.div`
+  border-right: 5px;
 `;
+
+const RowContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
 const CustomCard = ({
   gender,
   name,
@@ -69,28 +51,60 @@ const CustomCard = ({
   picture,
 }) => (
   <StyledContainer>
-    <Name>{gender}</Name>
-    <Name>{name.title + " " + name.first + " " + name.last}</Name>
-    <Location>
-      {location.street.number +
-        "\n" +
-        location.street.name +
-        "\n" +
-        location.city +
-        "\n" +
-        location.state +
-        "\n" +
-        location.country +
-        "-" +
-        location.postcode}
-    </Location>
-    <Email>{email}</Email>
-    <Email>{login.username}</Email>
-    <Email>{dateOfBirth.date}</Email>
-    <Email>{phone}</Email>
-    <Email>
-      <img src={picture.large} />
-    </Email>
+    <ImageContainer>
+      <img style={image} src={picture.large} alt={"img"} />
+    </ImageContainer>
+    <div style={{ marginLeft: "50px", padding: 5 }}>
+      <RowContainer>
+        {gender === "female" ? (
+          <IconContext.Provider value={{ color: "pink", size: "1.2rem" }}>
+            <BiFemaleSign />
+          </IconContext.Provider>
+        ) : (
+          <IconContext.Provider value={{ color: "blue", size: "1.2rem" }}>
+            <BiMaleSign />
+          </IconContext.Provider>
+        )}
+        <Text>{name.title + " " + name.first + " " + name.last}</Text>
+      </RowContainer>
+
+      <RowContainer>
+        <IconContext.Provider value={{ color: "green", size: "1.2rem" }}>
+          <GoLocation />
+        </IconContext.Provider>
+        <Text>
+          {location.street.number +
+            "/" +
+            location.street.Text +
+            "," +
+            location.city +
+            " " +
+            location.country +
+            "-" +
+            location.postcode}
+        </Text>
+      </RowContainer>
+
+      <RowContainer>
+        <IconContext.Provider value={{ color: "purple", size: "1.2rem" }}>
+          <AiOutlineMail />
+        </IconContext.Provider>
+        <Text>{email}</Text>
+      </RowContainer>
+      <RowContainer>
+        <IconContext.Provider value={{ color: "red", size: "1.2rem" }}>
+          <MdDateRange />
+        </IconContext.Provider>
+        <Text>{dateOfBirth.date.toString().slice(0, 10)}</Text>
+      </RowContainer>
+
+      <RowContainer>
+        <IconContext.Provider value={{ color: "Orange", size: "1.2rem" }}>
+          <AiFillPhone />
+        </IconContext.Provider>
+        <Text>{phone}</Text>
+      </RowContainer>
+    </div>
   </StyledContainer>
 );
 export default CustomCard;

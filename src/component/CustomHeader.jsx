@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   width: 100%;
   display: flex;
-  border-bottom: 1px solid ${(props) => "#000"};
+  border-bottom: 4px solid ${(props) => "#000"};
   justify-content: space-between;
   padding: 2.05em;
   background-color: #fff;
@@ -36,8 +36,10 @@ const Title = styled.div`
 function CustomHeader() {
   return (
     <Wrapper>
-        <img src={logo} style={{width:'150px', height:'45px'}} alt={'logo'}/>
-      <Title>Target Assesment</Title>
+      <img src={logo} style={{ width: "150px", height: "45px" }} alt={"logo"} />
+      <Title>
+        <b>Target Assessment</b>
+      </Title>
     </Wrapper>
   );
 }
