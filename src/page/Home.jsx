@@ -1,5 +1,11 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import {
+  FaCommentAlt,
+  FaThumbsUp,
+  FaRegEye,
+  FaThinkPeaks,
+} from "react-icons/fa";
 import CustomCard from "../component/CustomCard";
 import CustomHeader from "../component/CustomHeader";
 import axios from "axios";
@@ -24,7 +30,7 @@ class HomePage extends Component {
   componentDidMount() {
     axios.get(`https://randomuser.me/api/`).then(
       (res) => {
-        const persons = res.data.results;
+        const persons = res.data.results[0];
         this.setState({
           isLoaded: true,
           persons: persons,
@@ -51,10 +57,16 @@ class HomePage extends Component {
           <CustomHeader />
           <StyledRoot>
             <StyledContainer>
-              <ul>
-                {persons.map(person =>
-                  <li key = {person.login.})}
-              </ul>
+              <CustomCard
+                gender={persons.gender}
+                name={persons.name}
+                location={persons.location}
+                email={persons.email}
+                login={persons.login}
+                dateOfBirth={persons.dob}
+                phone={persons.phone}
+                picture={persons.picture}
+              />
             </StyledContainer>
           </StyledRoot>
         </div>
