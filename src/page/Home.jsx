@@ -30,7 +30,7 @@ class HomePage extends Component {
   componentDidMount() {
     axios.get(`https://randomuser.me/api/`).then(
       (res) => {
-        const persons = res.data.results[0];
+        const persons = res.data.results;
         this.setState({
           isLoaded: true,
           persons: persons,
@@ -57,16 +57,21 @@ class HomePage extends Component {
           <CustomHeader />
           <StyledRoot>
             <StyledContainer>
-              <CustomCard
-                gender={persons.gender}
-                name={persons.name}
-                location={persons.location}
-                email={persons.email}
-                login={persons.login}
-                dateOfBirth={persons.dob}
-                phone={persons.phone}
-                picture={persons.picture}
-              />
+              <ul className="ul">
+                {persons.map(person => (
+                  <li key = {person.login.uuid}>
+                    <CustomCard
+                      gender={person.gender}
+                      name={person.name}
+                      location={person.location}
+                      email={person.email}
+                      login={person.login}
+                      dateOfBirth={person.dob}
+                      phone={person.phone}
+                      picture={person.picture}/>
+                  </li>
+                ))}
+              </ul>
             </StyledContainer>
           </StyledRoot>
         </div>
